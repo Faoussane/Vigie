@@ -1,0 +1,27 @@
+# Environnement de développement : docker compose up --build
+services:
+  db:
+    image: postgres:17
+    environment: {POSTGRES_DB: vigie, POSTGRES_USER: vigie, POSTGRES_PASSWORD: vigie}
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+  redis:
+    image: redis:7
+  backend: &backend
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://vigie:vigie@db:5432/vigie
+      REDIS_URL: redis://redis:6379/0
+    volumes: [".:/app"]
+    ports: ["8000:8000"]
+    depends_on: [db, redis]
+  worker:
+    <<: *backend
+    command: celery -A config worker -l info
+    ports: []
+  beat:
+    <<: *backend
+    command: celery -A config beat -l info
+    ports: []
+volumes:
+  pgdata:

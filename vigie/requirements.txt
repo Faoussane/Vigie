@@ -1,0 +1,22 @@
+# Compatible Python 3.13 — Django 5.2 LTS
+Django>=5.2,<5.3
+djangorestframework>=3.16
+djangorestframework-simplejwt>=5.5
+django-filter>=25.1
+django-cors-headers>=4.7
+django-environ>=0.12
+drf-spectacular>=0.28      # documentation OpenAPI / Swagger de l'API
+psycopg[binary]>=3.2       # driver PostgreSQL
+Pillow>=11.0               # champs ImageField
+
+# V2 — collecte automatique
+celery>=5.4
+redis>=5.2
+feedparser>=6.0
+
+# V3 — IA (optionnel : sans clé, un mode « local » heuristique est utilisé)
+google-genai>=1.0
+
+# Documentation du code (optionnel)
+Sphinx>=8.1
+sphinx-rtd-theme>=3.0

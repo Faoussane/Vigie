@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Vigie — système de design
+   Direction : carte marine / radar. Encre marine, papier froid,
+   une seule couleur d'alerte (rouge bouée) pour le « signal ».
+   Titres : Bricolage Grotesque · Lecture des articles : Literata
+   ============================================================ */
+
+@theme inline {
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Literata", Georgia, "Times New Roman", serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-signal: var(--signal);
+  --color-signal-soft: var(--signal-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+}
+
+:root {
+  --bg: #f2f5f8;
+  --surface: #ffffff;
+  --sunken: #e8edf2;
+  --ink: #0b2239;
+  --muted: #566879;
+  --line: #d8e0e8;
+  --brand: #0e4a6b;
+  --brand-ink: #ffffff;
+  --brand-soft: #e0eef4;
+  --signal: #d62839;
+  --signal-soft: #fce8ea;
+  --ok: #17744b;
+  --ok-soft: #ddf3e8;
+  --warn: #8a5a00;
+  --warn-soft: #fbefd2;
+  --danger: #b42318;
+  --danger-soft: #fde7e5;
+}
+
+[data-theme="dark"] {
+  --bg: #08131e;
+  --surface: #0e1e2e;
+  --sunken: #132a3e;
+  --ink: #e8f0f7;
+  --muted: #9bb0c3;
+  --line: #20384d;
+  --brand: #5bc0e8;
+  --brand-ink: #04202f;
+  --brand-soft: #123349;
+  --signal: #ff6b78;
+  --signal-soft: #3a1820;
+  --ok: #4fd08f;
+  --ok-soft: #0f3223;
+  --warn: #f2c14e;
+  --warn-soft: #3b2e0e;
+  --danger: #ff8a7e;
+  --danger-soft: #3c1714;
+}
+
+@layer base {
+  /* Tailwind 4 : la bordure par défaut est « currentColor » ; on la remplace par notre teinte. */
+  *, ::before, ::after { border-color: var(--line); }
+  html { color-scheme: light; scroll-padding-top: 5rem; }
+  html[data-theme="dark"] { color-scheme: dark; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3 { letter-spacing: -0.02em; text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+  ::selection { background: color-mix(in oklab, var(--brand) 30%, transparent); }
+}
+
+@layer components {
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+    border: 1px solid transparent; border-radius: .65rem; padding: .55rem 1rem;
+    font-size: .875rem; font-weight: 600; line-height: 1.2; white-space: nowrap; cursor: pointer;
+    transition: background-color .15s, border-color .15s, filter .15s;
+  }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-primary { background: var(--brand); color: var(--brand-ink); }
+  .btn-primary:hover:not(:disabled) { filter: brightness(1.14); }
+  .btn-ghost { background: var(--surface); border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover:not(:disabled) { background: var(--sunken); }
+  .btn-danger { background: transparent; border-color: color-mix(in oklab, var(--danger) 45%, var(--line)); color: var(--danger); }
+  .btn-danger:hover:not(:disabled) { background: var(--danger-soft); }
+  .btn-sm { padding: .3rem .65rem; font-size: .78rem; border-radius: .5rem; }
+  .btn-icon { padding: .5rem; border-radius: .65rem; }
+
+  .field {
+    width: 100%; border: 1px solid var(--line); border-radius: .65rem; background: var(--surface);
+    padding: .6rem .8rem; font-size: .9rem; color: var(--ink);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .field::placeholder { color: var(--muted); opacity: .8; }
+  .field:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand) 22%, transparent); }
+
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 1rem; padding: 1.1rem; }
+
+  .badge { display: inline-flex; align-items: center; gap: .3rem; border-radius: .45rem; padding: .12rem .5rem; font-size: .75rem; font-weight: 600; background: var(--sunken); color: var(--muted); }
+  .badge-brand { background: var(--brand-soft); color: var(--brand); }
+  .badge-ok { background: var(--ok-soft); color: var(--ok); }
+  .badge-warn { background: var(--warn-soft); color: var(--warn); }
+  .badge-danger { background: var(--danger-soft); color: var(--danger); }
+  .badge-signal { background: var(--signal-soft); color: var(--signal); }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); }
+  .table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+  .table th { text-align: left; font-size: .78rem; font-weight: 600; color: var(--muted); background: var(--sunken); padding: .7rem .9rem; white-space: nowrap; }
+  .table td { padding: .7rem .9rem; border-top: 1px solid var(--line); vertical-align: middle; }
+  .table tbody tr:hover { background: color-mix(in oklab, var(--sunken) 50%, transparent); }
+
+  .skeleton { border-radius: .6rem; background: linear-gradient(90deg, var(--sunken) 25%, color-mix(in oklab, var(--sunken) 60%, var(--surface)) 50%, var(--sunken) 75%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+
+  /* Texte d'article : empattement, grande interligne, mesure < 70 caractères. */
+  .article-body { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.85; max-width: 68ch; white-space: pre-wrap; }
+}
+
+@keyframes shimmer { to { background-position: -200% 0; } }
+@keyframes sweep { to { transform: rotate(360deg); } }
+
+.radar-sweep { transform-origin: 200px 200px; animation: sweep 9s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep, .skeleton { animation: none; }
+  html { scroll-behavior: auto; }
+}
